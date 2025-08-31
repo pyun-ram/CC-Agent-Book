@@ -1,0 +1,64 @@
+\documentclass[12pt]{article}
+
+% === 基础包 ===
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% === 页面设置 ===
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\usepackage[margin=1in]{geometry}
+
+% === 超链接设置 ===
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={{{title}}},
+    pdfauthor={{{author}}},
+    pdfsubject={{{subject}}},
+    pdfkeywords={{{keywords}}},
+}
+
+% === 代码高亮设置 ===
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red},
+    showstringspaces=false,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{gray!10}
+}
+
+% === 文档信息 ===
+\title{{{{title}}}}
+\author{{{{author}}}}
+\date{{{{date}}}}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+{{{abstract}}}
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+% === 主要内容 ===
+{{{content}}}
+
+% === 参考文献 ===
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

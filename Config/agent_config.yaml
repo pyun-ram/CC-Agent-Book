@@ -1,0 +1,135 @@
+# AI Agent Configuration
+
+# BookChapter Agent 配置
+book_chapter_agent:
+  book_folder: "Book"
+  default_author: "AI System"
+  date_format: "%Y%m%d"
+  supported_formats:
+    - "latex"
+    - "markdown"
+  folder_naming:
+    prefix_date: true
+    max_topic_length: 20
+    separator: "-"
+  content_generation:
+    auto_generate_outline: true
+    default_sections:
+      - "introduction"
+      - "main_content"
+      - "conclusion"
+      - "references"
+
+# Polish Agent 配置
+polish_agent:
+  polish_options:
+    format_normalization: true
+    consistency_check: true
+    grammar_check: true
+    academic_polish: true
+  supported_formats:
+    - "latex"
+    - "markdown"
+  max_file_size: 1048576  # 1MB
+  backup_enabled: true
+  backup_suffix: ".backup"
+  quality_threshold:
+    min_content_length: 100
+    max_errors: 10
+    warning_level: "medium"
+
+# Template Manager 配置
+template_manager:
+  template_dir: "Templates"
+  backup_enabled: true
+  backup_dir: "Templates/backups"
+  supported_types:
+    - "latex"
+    - "markdown"
+  template_versions:
+    latex: "1.0"
+    markdown: "1.0"
+  template_variables:
+    title: "文章标题"
+    author: "作者"
+    date: "日期"
+    subject: "主题"
+    abstract: "摘要"
+    keywords: "关键词"
+    introduction: "引言"
+    content: "主要内容"
+    conclusion: "结论"
+    references: "参考文献"
+
+# Workflow Orchestrator 配置
+workflow_orchestrator:
+  workflows:
+    create_article:
+      steps:
+        - "book_chapter"
+        - "polish"
+      quality_gates: true
+      retry_on_failure: true
+      max_retries: 3
+      timeout: 300  # 5分钟
+    
+    polish_only:
+      steps:
+        - "polish"
+      quality_gates: true
+      retry_on_failure: true
+      max_retries: 2
+      timeout: 120  # 2分钟
+    
+    template_management:
+      steps:
+        - "template_manager"
+      quality_gates: false
+      retry_on_failure: false
+      timeout: 60  # 1分钟
+  
+  logging:
+    enabled: true
+    log_file: "Data/workflow_logs.json"
+    log_level: "INFO"
+    max_log_entries: 1000
+  
+  quality_threshold:
+    min_content_length: 100
+    max_errors: 5
+    execution_timeout: 600  # 10分钟
+  
+  notifications:
+    enabled: false
+    on_success: false
+    on_failure: true
+    channels: []
+
+# 系统全局配置
+system:
+  debug_mode: false
+  temp_dir: "Data/temp"
+  cache_enabled: true
+  cache_ttl: 3600  # 1小时
+  max_concurrent_workflows: 5
+  cleanup_on_startup: true
+  
+# 安全配置
+security:
+  validate_file_paths: true
+  allowed_file_extensions:
+    - ".tex"
+    - ".md"
+    - ".txt"
+    - ".json"
+    - ".yaml"
+    - ".yml"
+  max_file_size: 10485760  # 10MB
+  sanitize_user_input: true
+  
+# 性能配置
+performance:
+  enable_parallel_processing: false
+  thread_pool_size: 4
+  memory_limit: 536870912  # 512MB
+  disk_usage_threshold: 0.8  # 80%

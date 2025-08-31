@@ -1,0 +1,194 @@
+[
+  {
+    "timestamp": "2025-08-31T12:04:49.996514",
+    "level": "START",
+    "message": "开始执行工作流: create_article",
+    "workflow_id": "workflow_20250831_120449"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:49.997313",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120449"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:50.002526",
+    "level": "RETRY",
+    "message": "重试步骤 book_chapter (第1次)",
+    "workflow_id": "workflow_20250831_120449"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:50.005248",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120449"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:50.009950",
+    "level": "RETRY",
+    "message": "重试步骤 book_chapter (第2次)",
+    "workflow_id": "workflow_20250831_120449"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:50.019109",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120449"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:50.023620",
+    "level": "RETRY",
+    "message": "重试步骤 book_chapter (第3次)",
+    "workflow_id": "workflow_20250831_120449"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:50.026855",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120449"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:50.031201",
+    "level": "ERROR",
+    "message": "步骤 book_chapter 执行失败: 找不到markdown模板",
+    "workflow_id": "workflow_20250831_120449"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:33.985153",
+    "level": "START",
+    "message": "开始执行工作流: create_article",
+    "workflow_id": "workflow_20250831_120533"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:33.986618",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120533"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:33.991142",
+    "level": "RETRY",
+    "message": "重试步骤 book_chapter (第1次)",
+    "workflow_id": "workflow_20250831_120533"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:33.993633",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120533"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:33.998165",
+    "level": "RETRY",
+    "message": "重试步骤 book_chapter (第2次)",
+    "workflow_id": "workflow_20250831_120533"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:34.002122",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120533"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:34.005409",
+    "level": "RETRY",
+    "message": "重试步骤 book_chapter (第3次)",
+    "workflow_id": "workflow_20250831_120533"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:34.009132",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120533"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:34.012216",
+    "level": "ERROR",
+    "message": "步骤 book_chapter 执行失败: 找不到markdown模板",
+    "workflow_id": "workflow_20250831_120533"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:43.860912",
+    "level": "START",
+    "message": "开始执行工作流: create_article",
+    "workflow_id": "workflow_20250831_120643"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:43.863072",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120643"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:43.869218",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120643"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:43.872721",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第1次)",
+    "workflow_id": "workflow_20250831_120643"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:43.874831",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120643"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:43.877578",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第2次)",
+    "workflow_id": "workflow_20250831_120643"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:43.879355",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120643"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:43.881152",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第3次)",
+    "workflow_id": "workflow_20250831_120643"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:43.884116",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120643"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:43.887569",
+    "level": "ERROR",
+    "message": "步骤 polish 执行失败: 缺少必要参数: file_path",
+    "workflow_id": "workflow_20250831_120643"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:56.048719",
+    "level": "START",
+    "message": "开始执行工作流: create_article",
+    "workflow_id": "workflow_20250831_120656"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:56.050739",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120656"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:56.056801",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120656"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:56.063943",
+    "level": "COMPLETE",
+    "message": "工作流 create_article 执行成功",
+    "workflow_id": "workflow_20250831_120656"
+  }
+]

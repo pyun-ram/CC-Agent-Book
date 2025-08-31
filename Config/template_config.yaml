@@ -1,0 +1,227 @@
+# Template Configuration
+
+# LaTeX 模板配置
+latex_template:
+  version: "1.0"
+  description: "标准学术论文LaTeX模板"
+  document_class: "article"
+  font_size: 12pt
+  packages:
+    - "utf8"
+    - "amsmath"
+    - "amssymb"
+    - "amsfonts"
+    - "graphicx"
+    - "url"
+    - "hyperref"
+    - "listings"
+    - "xcolor"
+  page_settings:
+    margin: "1in"
+    parindent: "0pt"
+    parskip: "0.5em"
+  hyperref_settings:
+    colorlinks: true
+    linkcolor: "blue"
+    filecolor: "magenta"
+    urlcolor: "cyan"
+  listings_settings:
+    basicstyle: "\\ttfamily\\small"
+    keywordstyle: "\\color{blue}"
+    commentstyle: "\\color{green!60!black}"
+    stringstyle: "\\color{red}"
+    showstringspaces: false
+    breaklines: true
+    frame: "single"
+    backgroundcolor: "\\color{gray!10}"
+  
+  required_sections:
+    - "title"
+    - "author"
+    - "date"
+    - "abstract"
+    - "content"
+    - "references"
+  
+  optional_sections:
+    - "keywords"
+    - "introduction"
+    - "conclusion"
+    - "acknowledgments"
+
+# Markdown 模板配置
+markdown_template:
+  version: "1.0"
+  description: "标准技术文档Markdown模板"
+  formatting:
+    header_style: "atx"  # atx 或 setext
+    line_break: "hard"
+    emphasis_style: "underscore"
+    list_style: "dash"
+  front_matter:
+    enabled: true
+    required_fields:
+      - "title"
+      - "author"
+      - "date"
+    optional_fields:
+      - "subject"
+      - "keywords"
+      - "description"
+  
+  sections:
+    required:
+      - "title"
+      - "author"
+      - "date"
+      - "abstract"
+      - "content"
+      - "references"
+    optional:
+      - "introduction"
+      - "conclusion"
+      - "table_of_contents"
+      - "appendix"
+  
+  formatting_rules:
+    max_line_length: 80
+    trailing_whitespace: "remove"
+    multiple_newlines: "collapse"
+    header_spacing: 2
+
+# 模板变量配置
+template_variables:
+  # 基础信息
+  title:
+    type: "string"
+    required: true
+    default: "未命名文章"
+    description: "文章标题"
+  
+  author:
+    type: "string"
+    required: true
+    default: "匿名作者"
+    description: "作者姓名"
+  
+  date:
+    type: "string"
+    required: true
+    default: "{{current_date}}"
+    description: "创建日期"
+  
+  subject:
+    type: "string"
+    required: false
+    default: ""
+    description: "文章主题/分类"
+  
+  # 内容结构
+  abstract:
+    type: "text"
+    required: true
+    default: "本文介绍了相关内容。"
+    description: "文章摘要"
+  
+  keywords:
+    type: "string"
+    required: false
+    default: ""
+    description: "关键词，用逗号分隔"
+  
+  introduction:
+    type: "text"
+    required: false
+    default: "本文旨在探讨相关主题。"
+    description: "引言部分"
+  
+  content:
+    type: "text"
+    required: true
+    default: "# 主要内容\n\n## 基本概念\n\n## 详细说明"
+    description: "文章主要内容"
+  
+  conclusion:
+    type: "text"
+    required: false
+    default: "通过本文的讨论，我们对相关主题有了更深入的理解。"
+    description: "结论部分"
+  
+  references:
+    type: "text"
+    required: true
+    default: "[1] 相关文献"
+    description: "参考文献"
+
+# 模板验证规则
+validation_rules:
+  latex:
+    syntax_checks:
+      - "documentclass_exists"
+      - "begin_end_pairs"
+      - "math_mode_balance"
+      - "cite_commands"
+      - "ref_commands"
+    
+    structure_checks:
+      - "abstract_environment"
+      - "section_hierarchy"
+      - "bibliography_section"
+    
+    content_checks:
+      - "min_word_count: 100"
+      - "title_length: 5-100"
+      - "abstract_length: 50-500"
+  
+  markdown:
+    syntax_checks:
+      - "header_consistency"
+      - "link_format"
+      - "image_format"
+      - "code_block_format"
+    
+    structure_checks:
+      - "front_matter_valid"
+      - "toc_consistency"
+      - "section_hierarchy"
+    
+    content_checks:
+      - "min_word_count: 100"
+      - "title_length: 5-100"
+      - "abstract_length: 50-300"
+
+# 模板自动生成配置
+auto_generation:
+  enabled: true
+  outline_generation:
+    max_depth: 3
+    section_types:
+      - "introduction"
+      - "background"
+      - "methodology"
+      - "results"
+      - "discussion"
+      - "conclusion"
+  
+  content_suggestions:
+    enabled: true
+    source: "ai_assistant"
+    confidence_threshold: 0.7
+  
+  format_validation:
+    enabled: true
+    auto_fix: true
+    report_issues: true
+
+# 模板版本控制
+version_control:
+  enabled: true
+  backup_on_change: true
+  backup_location: "Templates/backups"
+  max_backups: 10
+  version_naming: "semantic"  # semantic, date, sequential
+  
+  change_tracking:
+    enabled: true
+    log_file: "Data/template_changes.log"
+    include_diff: true

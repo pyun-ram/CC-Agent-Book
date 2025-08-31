@@ -1,0 +1,806 @@
+[
+  {
+    "timestamp": "2025-08-31T12:04:03.109577",
+    "level": "START",
+    "message": "开始执行工作流: create_article",
+    "workflow_id": "workflow_20250831_120403"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:03.110171",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120403"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:03.121089",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120403"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:03.125415",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第1次)",
+    "workflow_id": "workflow_20250831_120403"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:03.135561",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120403"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:03.141499",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第2次)",
+    "workflow_id": "workflow_20250831_120403"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:03.148406",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120403"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:03.152867",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第3次)",
+    "workflow_id": "workflow_20250831_120403"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:03.158398",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120403"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:03.160373",
+    "level": "ERROR",
+    "message": "步骤 polish 执行失败: 缺少必要参数: file_path",
+    "workflow_id": "workflow_20250831_120403"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:03.166613",
+    "level": "START",
+    "message": "开始执行工作流: create_article",
+    "workflow_id": "workflow_20250831_120403"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:03.173418",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120403"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:03.180872",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120403"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:03.186054",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第1次)",
+    "workflow_id": "workflow_20250831_120403"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:03.192231",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120403"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:03.205812",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第2次)",
+    "workflow_id": "workflow_20250831_120403"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:03.210712",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120403"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:03.216118",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第3次)",
+    "workflow_id": "workflow_20250831_120403"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:03.220623",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120403"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:03.228167",
+    "level": "ERROR",
+    "message": "步骤 polish 执行失败: 缺少必要参数: file_path",
+    "workflow_id": "workflow_20250831_120403"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:19.253015",
+    "level": "START",
+    "message": "开始执行工作流: create_article",
+    "workflow_id": "workflow_20250831_120419"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:19.254869",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120419"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:19.261963",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120419"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:19.264981",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第1次)",
+    "workflow_id": "workflow_20250831_120419"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:19.269169",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120419"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:19.273507",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第2次)",
+    "workflow_id": "workflow_20250831_120419"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:19.276988",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120419"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:19.282026",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第3次)",
+    "workflow_id": "workflow_20250831_120419"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:19.286430",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120419"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:19.291307",
+    "level": "ERROR",
+    "message": "步骤 polish 执行失败: 缺少必要参数: file_path",
+    "workflow_id": "workflow_20250831_120419"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:19.301704",
+    "level": "START",
+    "message": "开始执行工作流: create_article",
+    "workflow_id": "workflow_20250831_120419"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:19.307905",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120419"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:19.316542",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120419"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:19.322440",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第1次)",
+    "workflow_id": "workflow_20250831_120419"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:19.326510",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120419"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:19.332169",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第2次)",
+    "workflow_id": "workflow_20250831_120419"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:19.339588",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120419"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:19.344416",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第3次)",
+    "workflow_id": "workflow_20250831_120419"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:19.352614",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120419"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:19.359131",
+    "level": "ERROR",
+    "message": "步骤 polish 执行失败: 缺少必要参数: file_path",
+    "workflow_id": "workflow_20250831_120419"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:39.337789",
+    "level": "START",
+    "message": "开始执行工作流: create_article",
+    "workflow_id": "workflow_20250831_120439"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:39.340192",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120439"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:39.350150",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120439"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:39.357513",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第1次)",
+    "workflow_id": "workflow_20250831_120439"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:39.373765",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120439"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:39.386154",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第2次)",
+    "workflow_id": "workflow_20250831_120439"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:39.455284",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120439"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:39.463493",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第3次)",
+    "workflow_id": "workflow_20250831_120439"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:39.493652",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120439"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:39.525004",
+    "level": "ERROR",
+    "message": "步骤 polish 执行失败: 缺少必要参数: file_path",
+    "workflow_id": "workflow_20250831_120439"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:39.540784",
+    "level": "START",
+    "message": "开始执行工作流: create_article",
+    "workflow_id": "workflow_20250831_120439"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:39.549979",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120439"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:39.562835",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120439"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:39.572161",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第1次)",
+    "workflow_id": "workflow_20250831_120439"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:39.580238",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120439"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:39.596755",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第2次)",
+    "workflow_id": "workflow_20250831_120439"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:39.608316",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120439"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:39.613038",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第3次)",
+    "workflow_id": "workflow_20250831_120439"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:39.621245",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120439"
+  },
+  {
+    "timestamp": "2025-08-31T12:04:39.680028",
+    "level": "ERROR",
+    "message": "步骤 polish 执行失败: 缺少必要参数: file_path",
+    "workflow_id": "workflow_20250831_120439"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:20.707471",
+    "level": "START",
+    "message": "开始执行工作流: create_article",
+    "workflow_id": "workflow_20250831_120520"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:20.712424",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120520"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:20.742069",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120520"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:20.758336",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第1次)",
+    "workflow_id": "workflow_20250831_120520"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:20.768974",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120520"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:20.782919",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第2次)",
+    "workflow_id": "workflow_20250831_120520"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:20.788940",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120520"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:20.798283",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第3次)",
+    "workflow_id": "workflow_20250831_120520"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:20.803322",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120520"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:20.809969",
+    "level": "ERROR",
+    "message": "步骤 polish 执行失败: 缺少必要参数: file_path",
+    "workflow_id": "workflow_20250831_120520"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:20.833671",
+    "level": "START",
+    "message": "开始执行工作流: create_article",
+    "workflow_id": "workflow_20250831_120520"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:20.845438",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120520"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:20.851451",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120520"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:20.856134",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第1次)",
+    "workflow_id": "workflow_20250831_120520"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:20.860594",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120520"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:20.865123",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第2次)",
+    "workflow_id": "workflow_20250831_120520"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:20.870070",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120520"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:20.875810",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第3次)",
+    "workflow_id": "workflow_20250831_120520"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:20.881724",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120520"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:20.890576",
+    "level": "ERROR",
+    "message": "步骤 polish 执行失败: 缺少必要参数: file_path",
+    "workflow_id": "workflow_20250831_120520"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:55.188649",
+    "level": "START",
+    "message": "开始执行工作流: create_article",
+    "workflow_id": "workflow_20250831_120555"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:55.191597",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120555"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:55.198262",
+    "level": "RETRY",
+    "message": "重试步骤 book_chapter (第1次)",
+    "workflow_id": "workflow_20250831_120555"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:55.202821",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120555"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:55.208790",
+    "level": "RETRY",
+    "message": "重试步骤 book_chapter (第2次)",
+    "workflow_id": "workflow_20250831_120555"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:55.339180",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120555"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:55.344963",
+    "level": "RETRY",
+    "message": "重试步骤 book_chapter (第3次)",
+    "workflow_id": "workflow_20250831_120555"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:55.379880",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120555"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:55.385555",
+    "level": "ERROR",
+    "message": "步骤 book_chapter 执行失败: 'TemplateManager' object has no attribute 'get_template_by_type'",
+    "workflow_id": "workflow_20250831_120555"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:55.392655",
+    "level": "START",
+    "message": "开始执行工作流: create_article",
+    "workflow_id": "workflow_20250831_120555"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:55.397689",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120555"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:55.404092",
+    "level": "RETRY",
+    "message": "重试步骤 book_chapter (第1次)",
+    "workflow_id": "workflow_20250831_120555"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:55.408989",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120555"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:55.416187",
+    "level": "RETRY",
+    "message": "重试步骤 book_chapter (第2次)",
+    "workflow_id": "workflow_20250831_120555"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:55.423251",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120555"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:55.431145",
+    "level": "RETRY",
+    "message": "重试步骤 book_chapter (第3次)",
+    "workflow_id": "workflow_20250831_120555"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:55.439307",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120555"
+  },
+  {
+    "timestamp": "2025-08-31T12:05:55.448377",
+    "level": "ERROR",
+    "message": "步骤 book_chapter 执行失败: 'TemplateManager' object has no attribute 'get_template_by_type'",
+    "workflow_id": "workflow_20250831_120555"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:38.930812",
+    "level": "START",
+    "message": "开始执行工作流: create_article",
+    "workflow_id": "workflow_20250831_120638"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:38.936061",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120638"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:38.942050",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120638"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:38.948509",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第1次)",
+    "workflow_id": "workflow_20250831_120638"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:38.954003",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120638"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:38.960511",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第2次)",
+    "workflow_id": "workflow_20250831_120638"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:38.969454",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120638"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:38.976780",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第3次)",
+    "workflow_id": "workflow_20250831_120638"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:38.986017",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120638"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:38.992237",
+    "level": "ERROR",
+    "message": "步骤 polish 执行失败: 缺少必要参数: file_path",
+    "workflow_id": "workflow_20250831_120638"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:39.001448",
+    "level": "START",
+    "message": "开始执行工作流: create_article",
+    "workflow_id": "workflow_20250831_120639"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:39.008849",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120639"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:39.015571",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120639"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:39.022787",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第1次)",
+    "workflow_id": "workflow_20250831_120639"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:39.028115",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120639"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:39.033919",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第2次)",
+    "workflow_id": "workflow_20250831_120639"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:39.038679",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120639"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:39.044435",
+    "level": "RETRY",
+    "message": "重试步骤 polish (第3次)",
+    "workflow_id": "workflow_20250831_120639"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:39.049853",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120639"
+  },
+  {
+    "timestamp": "2025-08-31T12:06:39.055138",
+    "level": "ERROR",
+    "message": "步骤 polish 执行失败: 缺少必要参数: file_path",
+    "workflow_id": "workflow_20250831_120639"
+  },
+  {
+    "timestamp": "2025-08-31T12:07:04.861637",
+    "level": "START",
+    "message": "开始执行工作流: create_article",
+    "workflow_id": "workflow_20250831_120704"
+  },
+  {
+    "timestamp": "2025-08-31T12:07:04.864587",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120704"
+  },
+  {
+    "timestamp": "2025-08-31T12:07:04.931943",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120704"
+  },
+  {
+    "timestamp": "2025-08-31T12:07:04.942576",
+    "level": "COMPLETE",
+    "message": "工作流 create_article 执行成功",
+    "workflow_id": "workflow_20250831_120704"
+  },
+  {
+    "timestamp": "2025-08-31T12:07:04.996703",
+    "level": "START",
+    "message": "开始执行工作流: create_article",
+    "workflow_id": "workflow_20250831_120704"
+  },
+  {
+    "timestamp": "2025-08-31T12:07:05.006156",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120704"
+  },
+  {
+    "timestamp": "2025-08-31T12:07:05.019210",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120704"
+  },
+  {
+    "timestamp": "2025-08-31T12:07:05.033587",
+    "level": "COMPLETE",
+    "message": "工作流 create_article 执行成功",
+    "workflow_id": "workflow_20250831_120704"
+  },
+  {
+    "timestamp": "2025-08-31T12:07:25.939732",
+    "level": "START",
+    "message": "开始执行工作流: create_article",
+    "workflow_id": "workflow_20250831_120725"
+  },
+  {
+    "timestamp": "2025-08-31T12:07:25.942401",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120725"
+  },
+  {
+    "timestamp": "2025-08-31T12:07:25.949100",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120725"
+  },
+  {
+    "timestamp": "2025-08-31T12:07:25.957418",
+    "level": "COMPLETE",
+    "message": "工作流 create_article 执行成功",
+    "workflow_id": "workflow_20250831_120725"
+  },
+  {
+    "timestamp": "2025-08-31T12:07:25.966159",
+    "level": "START",
+    "message": "开始执行工作流: create_article",
+    "workflow_id": "workflow_20250831_120725"
+  },
+  {
+    "timestamp": "2025-08-31T12:07:25.972389",
+    "level": "STEP",
+    "message": "执行步骤: book_chapter",
+    "workflow_id": "workflow_20250831_120725"
+  },
+  {
+    "timestamp": "2025-08-31T12:07:25.979734",
+    "level": "STEP",
+    "message": "执行步骤: polish",
+    "workflow_id": "workflow_20250831_120725"
+  },
+  {
+    "timestamp": "2025-08-31T12:07:25.988657",
+    "level": "COMPLETE",
+    "message": "工作流 create_article 执行成功",
+    "workflow_id": "workflow_20250831_120725"
+  }
+]
