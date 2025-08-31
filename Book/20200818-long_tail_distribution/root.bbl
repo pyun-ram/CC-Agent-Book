@@ -1,0 +1,26 @@
+\begin{thebibliography}{1}
+
+\bibitem{Zhu_2014_CVPR}
+Xiangxin Zhu, Dragomir Anguelov, and Deva Ramanan.
+\newblock Capturing long-tail distributions of object subcategories.
+\newblock In {\em Proceedings of the IEEE Conference on Computer Vision and
+  Pattern Recognition (CVPR)}, June 2014.
+
+\bibitem{van2017devil}
+Grant Van~Horn and Pietro Perona.
+\newblock The devil is in the tails: Fine-grained classification in the wild.
+\newblock {\em arXiv preprint arXiv:1709.01450}, 2017.
+
+\bibitem{Wang2017tail}
+Yu-Xiong Wang, Deva Ramanan, and Martial Hebert.
+\newblock {Learning to Model the Tail}.
+\newblock In I~Guyon, U~V Luxburg, S~Bengio, H~Wallach, R~Fergus,
+  S~Vishwanathan, and R~Garnett, editors, {\em Advances in Neural Information
+  Processing Systems 30}, pages 7029--7039. Curran Associates, Inc., 2017.
+
+\bibitem{murphy2012machine}
+Kevin~P Murphy.
+\newblock {\em Machine learning: a probabilistic perspective}.
+\newblock MIT press, 2012.
+
+\end{thebibliography}

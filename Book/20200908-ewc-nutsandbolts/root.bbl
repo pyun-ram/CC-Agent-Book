@@ -1,0 +1,12 @@
+\begin{thebibliography}{1}
+
+\bibitem{Kirkpatrick2017}
+James Kirkpatrick, Razvan Pascanu, Neil Rabinowitz, Joel Veness, Guillaume
+  Desjardins, Andrei~A. Rusu, Kieran Milan, John Quan, Tiago Ramalho, Agnieszka
+  Grabska-Barwinska, Demis Hassabis, Claudia Clopath, Dharshan Kumaran, and
+  Raia Hadsell.
+\newblock {Overcoming catastrophic forgetting in neural networks}.
+\newblock {\em Proceedings of the National Academy of Sciences of the United
+  States of America}, 114(13):3521--3526, 2017.
+
+\end{thebibliography}

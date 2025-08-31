@@ -1,0 +1,30 @@
+\documentclass{article}
+
+\title{Machine Learning: A Probabilistic Perspective (Chapter 1)}
+\date{20201019}
+
+\begin{document}
+
+\section{Long-tail data distribution}
+"It should be noted, however, that even when one has an apparently massive data set, the effective number of data points for certain cases of interest might be quite small. In fact, data across a variety of domains exhibits a property known as the \textbf{long tail}, which means that a few things (e.g. words) are very common, but most things are quite rare. For example, 20\% of Google searches each day have never been seen before."
+
+\section{The definition of parametric model vs. non-parametric model}
+In this book, it defines a parametric model as the model have a fixed number of parameters, and a non-parametric model as the model whose number of parameters grow with the amount of training data.
+
+In the course of 5212, the definition of the parametric, semi-parametric and non-parametric methods are:
+\begin{itemize}
+    \item Parametric methods: $p(x | C_i)$ is represented by a single global parametric model.
+    \item Semi-parametric methods: $p(x | C_i)$ is represented by a small number of local parametric models.
+    \item Non-parametric methods: $p(x | C_i)$ cannot be represented by a single parametric model or a mixture model; the data speaks for itself.
+\end{itemize}
+\section{Inductive bias}
+The main way to combat the curse of dimensionality is to make some assumptions about the nature of the data distribution.
+These assumptions, known as \textbf{inductive bias}, are often embodied in the form of a \textbf{parametric model}, which is a statistical model with a fixed number of parameters.
+
+\section{No free lunch theorem}
+"All models are wrong, but some models are useful."
+There is no universally best model. The reason for this is that a set of assumptions that works well in one domain may work poorly in another.
+
+As a consequence of the no free lunch theorem, we need to develop many different types of models, to cover the wide variety of data that occurs in the real world. And for each model, there may be many different algorithms we can use to train the model, which make different speed-accuracy-complexity tradeoffs.
+
+\end{document}

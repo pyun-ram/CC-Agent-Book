@@ -1,0 +1,62 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\title{Regularization-based incremental learning derivation}
+\author{Peng YUN}
+\date{20200818}
+
+\begin{document}
+\maketitle
+
+
+\section{prior-based incremental learning \cite{Liu2020}}
+
+Incremental learning assumes that an incremental dataset $\mathcal \epsilon$
+is provided in addition to $\mathcal D$.
+If these two are disjoint,
+we can write
+\begin{equation}
+    L(\mathbf w; \mathcal D \cup \mathcal \epsilon) = L(\mathbf w; \mathcal D) +  L(\mathbf w; \mathcal \epsilon)
+\end{equation}
+If $L$ is differentiable with respect to $\mathbf w$ and we train until convergence 
+$(\nabla_{\mathbf w} L(\mathbf w_0, \mathcal D) = 0)$, we can expand $L$ to second-order around the previous parameters $\mathbf w_0$
+to obtain
+\begin{equation}
+    \begin{split}
+        L(\mathbf w; \mathcal D \cup \mathcal \epsilon) &= L(\mathbf w; \mathcal D) +  L(\mathbf w; \mathcal \epsilon)\\
+        &\simeq L(\mathbf w_0+\delta \mathbf w;\mathcal \epsilon) + L(\mathbf w_0;\mathcal D)\\
+        &+\delta \mathbf w^TH(\mathbf w_0;\mathcal D)\delta \mathbf w
+    \end{split}
+\end{equation}
+where $\mathbf w = \mathbf w_0 + \delta \mathbf w$ and $H(\mathbf w_0; \mathcal D)$ is the Hessian of the Loss $L(\mathbf w; \mathcal D)$
+computed at $\mathbf w_0$. Ignoring the constant term $L(\mathbf w_0; \mathcal D)$ yields the derived loss
+\begin{equation}
+    \label{eq:loss_reg}
+    L(\mathbf w; \mathcal \epsilon) = L(\mathbf w_0+\delta \mathbf w;\mathcal \epsilon) \\
+    +\delta \mathbf w^TH(\mathbf w_0;\mathcal D)\delta \mathbf w
+\end{equation}
+minimizing which corresponds to fine-tuning the based model for the new task while ensuring that 
+the parameters change little.
+
+\section{distillation-based incremental learning \cite{Liu2020}}
+Distillation is based on approximating the loss not by perturbing the weights, $\mathbf w_0 \rightarrow \mathbf w_0 + \delta \mathbf w$,
+but by perturbing the discriminant function, $p_{\mathbf w_0} \rightarrow p_{\mathbf w_0 + \delta \mathbf w}$,
+which can be done by minimizing 
+\begin{equation}
+    \label{eq:loss_dist}
+    L(\mathbf w) = L(\mathbf w; \mathcal \epsilon)
+    + \lambda \mathbb{E}_{x \sim \mathcal D}
+    KL(p_{\mathbf w_0}(y|x) || p_{\mathbf w}(y|x)),
+\end{equation}
+where the KL divergence measures the perturbation of the new discriminant $p_w$
+with respect to the old one $p_{\mathbf w_0}$ in units $\lambda$.
+
+\section{Connection between the regularization-based and distillation-based methods \cite{Liu2020}}
+The losses in equation \ref{eq:loss_reg} and \ref{eq:loss_dist} are equivalent up to first-order,
+meaning that a local first-order optimization would yield the same initial step when minimizing them.
+
+\bibliography{root}
+\bibliographystyle{unsrt}
+
+\end{document}

@@ -1,0 +1,193 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\title{EWC-detection instantiation}
+\author{Peng YUN}
+\date{20200921}
+
+\begin{document}
+\maketitle
+
+We want to find the most probable parameters given the data of old and new tasks
+$\mathcal D = \mathcal D_A \cup \mathcal D_B$,
+where $\mathcal D_A$ denotes the data of the old task-A,
+and $\mathcal D_B$ denotes the data of the new task-B.
+The goal can be achieved by minimizing the negative logarithm of the posterior distribution
+$-\log p(\boldsymbol{\theta} | \mathcal D_A \cup \mathcal D_B)$.
+According to the bayesian rule, we can write the posterior term into:
+\begin{equation}
+-\log p(\boldsymbol{\theta} | \mathcal D_A \cup \mathcal D_B) = 
+- \log p(\mathcal D_B | \boldsymbol{\theta})
+- \log p(\boldsymbol{\theta} | \mathcal D_A)
++ \log p(\mathcal D_B)
+\label{eq:posterior_two-task-case}
+\end{equation}
+To get the optimal parameters $\boldsymbol{\theta}$, we solve the following optimization problem:
+\begin{equation}
+\begin{split}
+\boldsymbol{\theta}_{AB}^* = \arg \min_{\boldsymbol{\theta}} - \log p(\mathcal D_B | \boldsymbol{\theta})
+- \log p(\boldsymbol{\theta} | \mathcal D_A) 
+\end{split}
+\end{equation}
+It is noted that we get rid of the term $\log p(\mathcal D_B)$ in this optimization problem
+since the data distribution prior can be considered as a constant.
+
+For the objective function, we can easily compute the likelihood term $-\log p(\mathcal D_B |\boldsymbol{\theta})$
+with the task-B dataset at hand,
+and it is exactly the linear combination of classification and regression loss for object detection,
+which we denote it as $\mathcal L_{det}(\boldsymbol{\theta}, \mathcal D_B)$.
+
+The term $-\log p(\boldsymbol{\theta} | \mathcal D_A)$
+is intractable, since we do not have $\mathcal D_A$ at hand at the time of incrementally training task-B.
+The mechanism behind the prior-based method EWC is to restore the prior information
+of old task and then use the priors instead of old-task data to preserve learned knowledge.
+What we have at hand is $\boldsymbol{\theta}_A^*$ which minimizes the posterior term
+$-\log p(\boldsymbol{\theta} | \mathcal D_A)$, and therefore
+$\frac{\partial}{\partial \boldsymbol{\theta}} \log p(\boldsymbol{\theta} | \mathcal D_A)|_{\boldsymbol{\theta}_A^*} = 0$.
+We unfold the $\log p(\boldsymbol{\theta} | \mathcal D_A)$ at $\boldsymbol{\theta}_A^*$
+with Taylor expansion:
+\begin{equation}
+\begin{split}
+\log p(\boldsymbol{\theta} | \mathcal D_A)
+\approx \log p(\boldsymbol{\theta}_A^*|\mathcal D_A)
++ \frac{1}{2}(\boldsymbol{\theta} - \boldsymbol{\theta}^*)^T
+\frac{\partial^2}{\partial^2 \boldsymbol{\theta}}
+\log p(\boldsymbol{\theta} | \mathcal D_A)|_{\boldsymbol{\theta}_A^*}
+(\boldsymbol{\theta} - \boldsymbol{\theta}^*)
+\label{eq:posterior_task-A}
+\end{split}
+\end{equation}
+We denote the $\frac{\partial^2}{\partial^2 \boldsymbol{\theta}}
+\log p(\boldsymbol{\theta} | \mathcal D_A)|_{\boldsymbol{\theta}_A^*}$
+with $\boldsymbol{H}(\mathcal D_A, \boldsymbol{\theta}_A^*)$.
+It demonstrates the logarithm posterior distribution
+$\log p(\boldsymbol{\theta}|\mathcal D_A) \sim \mathcal 
+N(\log p(\boldsymbol{\theta}_A^*|\mathcal D_A),
+-\boldsymbol{H}(\mathcal D_A, \boldsymbol{\theta}_A^*)^{-1})$
+according to Laplacian approximation.
+
+We can compute $\boldsymbol{H}(\mathcal D_A, \boldsymbol{\theta}_A^*)$
+with empirical fisher information matrix (FIM):
+\begin{equation}
+\begin{split}
+\boldsymbol{H}(\mathcal D_A, \boldsymbol{\theta}_A^*)
+&= - \mathbb{F}(\mathcal D_A, \boldsymbol{\theta}_A^*) \\
+\mathbb{F}(\mathcal D_A, \boldsymbol{\theta}_A^*)
+= \frac{1}{|S|}
+\sum_{\tilde{\mathcal D}_A \sim \mathcal D_A}
+[(\frac{\partial}{\partial \boldsymbol{\theta}} \log& p(\boldsymbol{\theta}|\tilde{\mathcal D}_A)|_{\boldsymbol{\theta}_A^*})^T
+(\frac{\partial}{\partial \boldsymbol{\theta}} \log p(\boldsymbol{\theta}|\tilde{\mathcal D}_A)|_{\boldsymbol{\theta}_A^*})]
+\end{split}
+\end{equation}
+where $|S|$ denotes the number of times sampling $\tilde{\mathcal D}_A$ from $\mathcal D_A$.
+Consider the task-A is the first task in the task sequence,
+thus there is no prior information related to $\boldsymbol{\theta}$:
+\begin{equation}
+\begin{split}
+\log p(\boldsymbol{\theta}|\mathcal D_A) &=
+\log p(\mathcal D_A |\boldsymbol{\theta})
++ \log p(\boldsymbol{\theta})
+- \log p(\mathcal D_A) \\
+&= \log p(\mathcal D_A |\boldsymbol{\theta}) + \text{const.}
+\end{split}
+\end{equation}
+Therefore, we can compute the empirical FIM right after training task-A
+with the equation:
+\begin{equation}
+\mathbb{F}(\mathcal D_A, \boldsymbol{\theta}_A^*)
+= \frac{1}{|S|}
+\sum_{\tilde{\mathcal D_A} \sim \mathcal D_A}
+[(\frac{\partial}{\partial \boldsymbol{\theta}} \mathcal L_{det}(\tilde{\mathcal D_A}, \boldsymbol{\theta})|_{\boldsymbol{\theta_{A}^*}})^T
+(\frac{\partial}{\partial \boldsymbol{\theta}} \mathcal L_{det}(\tilde{\mathcal D_A}, \boldsymbol{\theta})|_{\boldsymbol{\theta_{A}^*}})]
+\label{eq:empirical_FIM_of_task-A}
+\end{equation}
+As a result, the objective function of optimizing $\theta$ for incrementally learning task-B is:
+\begin{equation}
+\boldsymbol{\theta}_{AB}^* = \arg \min_{\boldsymbol{\theta}}
+\mathcal L_{det}(\boldsymbol{\theta}, \mathcal D_B) + 
+\lambda (\boldsymbol{\theta} - \boldsymbol{\theta}_{A}^*)^T
+\mathbb{F}(\mathcal D_A, \boldsymbol{\theta}_A^*)
+(\boldsymbol{\theta} - \boldsymbol{\theta}_{A}^*)
+\end{equation}
+where the hyperparameter $\lambda$ balances the weights between the detection loss and the L2-norm prior constraints.
+
+Then we extend to the third task task-C, and derive the empirical FIM propagation.
+For three task cases, we want to find the optimal parameter $\boldsymbol{\theta}$
+by minimizing the $-\log p(\boldsymbol{\theta}|\mathcal D_A \cup \mathcal D_B \cup \mathcal D_C)$.
+The optimization problem is seen as:
+\begin{equation}
+\boldsymbol{\theta}_{ABC}^*
+= \arg \min_{\boldsymbol{\theta}}
+- \log p(\mathcal D_C|\boldsymbol{\theta})
+- \log p(\boldsymbol{\theta} | \mathcal D_A \cup \mathcal D_B)
+\end{equation}
+
+As before, the likelihood term
+$- \log p(\mathcal D_C|\boldsymbol{\theta}) = \mathcal L_{det}(\boldsymbol{\theta}, \mathcal D_C)$
+and can be computed easily with the task-C dataset at hand.
+What we also have at hand is $\boldsymbol{\theta}_{AB}^*$ which minimizes
+the posterior term of the two-task case $-\log p(\boldsymbol{\theta}|\mathcal D_A \cup \mathcal D_B)$,
+thus $\frac{\partial}{\partial \boldsymbol{\theta}}\log p(\boldsymbol{\theta}|\mathcal D_A \cup \mathcal D_B) = 0$.
+Please recap the equation \ref{eq:posterior_two-task-case}.
+We can unfold its RHS at $\boldsymbol{\theta}_{AB}^*$ and get:
+\begin{equation}
+\begin{split}
+&\text{\ \ \ \ }\log p(\boldsymbol{\theta}|\mathcal D_A \cup \mathcal D_B)\\
+&= \log p(\mathcal D_B | \boldsymbol{\theta}_{AB}^*) + \log p(\boldsymbol{\theta}_{AB}^* | \mathcal D_A) \\
+&= \frac{1}{2}(\boldsymbol{\theta} - \boldsymbol{\theta}_{AB}^*)^T
+\frac{\partial^2}{\partial^2 \boldsymbol{\theta}}
+[\log p(\mathcal D_B | \boldsymbol{\theta}) + \log p(\boldsymbol{\theta} | \mathcal D_A)]_{\boldsymbol{\theta}_{AB}^*}
+(\boldsymbol{\theta} - \boldsymbol{\theta}_{AB}^*)+ \text{const.}\\
+&=\frac{1}{2}(\boldsymbol{\theta} - \boldsymbol{\theta}_{AB}^*)^T
+[\frac{\partial^2}{\partial^2 \boldsymbol{\theta}}
+\log p(\mathcal D_B | \boldsymbol{\theta})|_{\boldsymbol{\theta}_{AB}^*} + \frac{\partial^2}{\partial^2 \boldsymbol{\theta}}\log p(\boldsymbol{\theta} | \mathcal D_A)|_{\boldsymbol{\theta}_{AB}^*}]
+(\boldsymbol{\theta} - \boldsymbol{\theta}_{AB}^*)+ \text{const.}
+\end{split}
+\end{equation}
+
+For $\frac{\partial^2}{\partial^2 \boldsymbol{\theta}}
+\log p(\mathcal D_B | \boldsymbol{\theta})|_{\boldsymbol{\theta}_{AB}^*}$, we can approximate it with the negative empirical FIM as before:
+\begin{equation}
+\mathbb{F}(\mathcal D_B, \boldsymbol{\theta}_{AB}^*)
+= \frac{1}{|S|}
+\sum_{\tilde{\mathcal D}_B \sim \mathcal D_B}
+[(\frac{\partial}{\partial \boldsymbol{\theta}} \mathcal L_{det}(\tilde{\mathcal D}_B, \boldsymbol{\theta})|_{\boldsymbol{\theta_{B}^*}})^T
+(\frac{\partial}{\partial \boldsymbol{\theta}} \mathcal L_{det}(\tilde{\mathcal D}_B), \boldsymbol{\theta})|_{\boldsymbol{\theta_{B}^*}})]
+\end{equation}
+For $\frac{\partial^2}{\partial^2 \boldsymbol{\theta}}
+\log p(\boldsymbol{\theta} | \mathcal D_A)|_{\boldsymbol{\theta}_{AB}^*}$,
+we have already derived the following equation (equation \ref{eq:posterior_task-A}, \ref{eq:empirical_FIM_of_task-A}):
+\begin{equation}
+\log p(\boldsymbol{\theta}|\mathcal D_A)
+\approx \log p(\boldsymbol{\theta}_A^*|\mathcal D_A)
++ \frac{1}{2}
+(\boldsymbol{\theta} - \boldsymbol{\theta}_A^*)^T
+\mathbb{F}(\mathcal D_A, \boldsymbol{\theta}_A^*)
+(\boldsymbol{\theta} - \boldsymbol{\theta}_A^*)
+\end{equation}
+Thus, we can get:
+\begin{equation}
+\frac{\partial^2}{\partial^2 \boldsymbol{\theta}}
+\log p(\boldsymbol{\theta} | \mathcal D_A)|_{\boldsymbol{\theta}_{AB}^*}
+= \mathbb{F}(\mathcal D_A, \boldsymbol{\theta}_A^*)
+\end{equation}
+As a result, the objective function for incrementally learning task-C is:
+\begin{equation}
+    \boldsymbol{\theta}_{ABC}^* = \arg \min_{\boldsymbol{\theta}}
+    \mathcal L_{det}(\boldsymbol{\theta}, \mathcal D_C) + 
+    \lambda (\boldsymbol{\theta} - \boldsymbol{\theta}_{AB}^*)^T
+    [\mathbb{F}(\mathcal D_A, \boldsymbol{\theta}_A^*)
+    + \mathbb{F}(\mathcal D_B, \boldsymbol{\theta}_{AB}^*)]
+    (\boldsymbol{\theta} - \boldsymbol{\theta}_{AB}^*)
+\end{equation}
+By recursively applying the above equation, the general objective function for incrementally learning task-$\mathcal T$ is:
+\begin{equation}
+    \boldsymbol{\theta}_{A..\mathcal T}^* = \arg \min_{\boldsymbol{\theta}}
+    \mathcal L_{det}(\boldsymbol{\theta}, \mathcal D_{\mathcal T}) + 
+    \lambda (\boldsymbol{\theta} - \boldsymbol{\theta}_{AB}^*)^T
+    [\sum_{t} \mathbb{F}(\mathcal D_t, \boldsymbol{\theta}_{A..t}^*)]
+    (\boldsymbol{\theta} - \boldsymbol{\theta}_{AB}^*)
+\end{equation}
+\end{document}
