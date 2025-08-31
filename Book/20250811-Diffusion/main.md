@@ -1,4 +1,4 @@
-# Diffusion Models ($ 版本)
+# Diffusion Models
 
 Reference: https://lilianweng.github.io/posts/2021-07-11-diffusion-models/
 
@@ -93,38 +93,36 @@ $$
 
 ## 3. Score Function 定义
 
-定义时间步 $t$ 的边缘分布 $q(\mathbf{x}_t)$ 的 score function：
+定义任意随机变量分布 $q(\mathbf{x}_t)$，其 score function 定义为：
 $$
 s_t(\mathbf{x}_t) := \nabla_{\mathbf{x}_t} \log q(\mathbf{x}_t).
 $$
 
-定义条件（给定 $\mathbf{x}_0$）的 score：
+我们额外定义条件 score（给定 $\mathbf{x}_0$）：
 $$
 s_{\text{cond}}(\mathbf{x}_t \mid \mathbf{x}_0) := \nabla_{\mathbf{x}_t} \log q(\mathbf{x}_t \mid \mathbf{x}_0).
 $$
 
-由前向扩散的闭式：
+由前向扩散我们有：
 $$
 q(\mathbf{x}_t \mid \mathbf{x}_0)=\mathcal N\bigl(\mathbf{x}_t;\sqrt{\bar\alpha_t}\mathbf{x}_0,(1-\bar\alpha_t)\mathbf{I}\bigr),
 $$
-直接求导可得
+我们可以直接求导，得到
 $$
 s_{\text{cond}}(\mathbf{x}_t \mid \mathbf{x}_0) = -\frac{1}{1-\bar\alpha_t}\bigl(\mathbf{x}_t - \sqrt{\bar\alpha_t}\mathbf{x}_0\bigr).
 $$
-
-使用重参数化
+把前向扩散使用重参数化，得到
 $$
 \mathbf{x}_t = \sqrt{\bar\alpha_t}\mathbf{x}_0 + \sqrt{1-\bar\alpha_t}\boldsymbol{\epsilon},\quad \boldsymbol{\epsilon}\sim\mathcal N(\mathbf{0},\mathbf{I}),
 $$
-得
+带入条件 score，得到
 $$
 s_{\text{cond}}(\mathbf{x}_t \mid \mathbf{x}_0)= -\frac{1}{\sqrt{1-\bar\alpha_t}}\boldsymbol{\epsilon},
 $$
-并且在给定 $(\mathbf{x}_0,\mathbf{x}_t)$ 时
+注意，此时我们已经固定了 $\mathbf{x_0}$ 和 $\mathbf{x_t}$, 此时 $\mathbf{\epsilon}$ 被唯一确定，因此  $\mathbf{\epsilon}$ 不再是随机变量，而是确定采样值：
 $$
 \boldsymbol{\epsilon} = \frac{\mathbf{x}_t - \sqrt{\bar\alpha_t}\mathbf{x}_0}{\sqrt{1-\bar\alpha_t}}
 $$
-为确定值。
 
 ## 4. Score Function 是条件 Score 的条件期望
 
@@ -132,15 +130,17 @@ $$
 $$
 q(\mathbf{x}_t)=\int q(\mathbf{x}_t\mid \mathbf{x}_0)\,q(\mathbf{x}_0)\,d\mathbf{x}_0,
 $$
-对 $\mathbf{x}_t$ 求梯度：
+我们对 $\mathbf{x}_t$ 求梯度：
 $$
 \nabla_{\mathbf{x}_t} q(\mathbf{x}_t) = \int q(\mathbf{x}_t\mid \mathbf{x}_0)\, s_{\text{cond}}(\mathbf{x}_t\mid \mathbf{x}_0)\, q(\mathbf{x}_0)\, d\mathbf{x}_0.
 $$
 故
 $$
-s_t(\mathbf{x}_t)=\nabla_{\mathbf{x}_t}\log q(\mathbf{x}_t)
-=\frac{1}{q(\mathbf{x}_t)}\int q(\mathbf{x}_t\mid \mathbf{x}_0) q(\mathbf{x}_0) s_{\text{cond}}(\mathbf{x}_t\mid \mathbf{x}_0)\, d\mathbf{x}_0
-=\mathbb E_{q(\mathbf{x}_0\mid \mathbf{x}_t)}\bigl[s_{\text{cond}}(\mathbf{x}_t\mid \mathbf{x}_0)\bigr].
+\begin{aligned}
+s_t(\mathbf{x}_t) &= \nabla_{\mathbf{x}_t}\log q(\mathbf{x}_t) \\
+                  &= \frac{1}{q(\mathbf{x}_t)}\int q(\mathbf{x}_t\mid \mathbf{x}_0) q(\mathbf{x}_0) s_{\text{cond}}(\mathbf{x}_t\mid \mathbf{x}_0)\, d\mathbf{x}_0 \\
+                  &= \mathbb{E}_{q(\mathbf{x}_0\mid \mathbf{x}_t)}\bigl[s_{\text{cond}}(\mathbf{x}_t\mid \mathbf{x}_0)\bigr]
+\end{aligned}
 $$
 
 即
@@ -151,164 +151,181 @@ $$
 ## 5. 模型：噪声预测形式与隐式 score
 
 DDPM 采用噪声预测网络（Ho et al.）：
-$$
+$
 \hat{\boldsymbol{\epsilon}}_\theta(\mathbf{x}_t,t)\approx \boldsymbol{\epsilon}.
-$$
+$
 利用上式关系，可定义模型隐式 score：
 $$
 s_\theta(\mathbf{x}_t,t):= -\frac{1}{\sqrt{1-\bar\alpha_t}}\,\hat{\boldsymbol{\epsilon}}_\theta(\mathbf{x}_t,t).
 $$
 由于这是关于 $\hat{\boldsymbol{\epsilon}}_\theta$ 的线性可逆变换，只要噪声预测最优，则对应的 $s_\theta$ 也最优。
 
-## 6. DDPM 的 ELBO（严格推导与参数化，参照引用博客）
+## 6. ELBO: Loss Function 推导
+我们的目标是最大化  $\log p_{\mathbf{\theta}}(\mathbf{x}_0)$, 我们可以最大化其下界。
 
-我们的目标是最大化数据似然 $\log q(\mathbf{x}_0)$ 的下界（ELBO）。构造生成模型：
+根据 Diffusion 反向扩散过程，我们可以得到联合概率：
 $$
 p_\theta(\mathbf{x}_{0:T}) = p(\mathbf{x}_T)\prod_{t=1}^T p_\theta(\mathbf{x}_{t-1}\mid \mathbf{x}_t), \quad p(\mathbf{x}_T)=\mathcal N(\mathbf{0},\mathbf{I}).
 $$
-前向（变分）分布：
+
+我们构造 ELBO：
 $$
-q(\mathbf{x}_{0:T}) = q(\mathbf{x}_0)\prod_{t=1}^T q(\mathbf{x}_t\mid \mathbf{x}_{t-1}),
-\quad q(\mathbf{x}_t\mid \mathbf{x}_{t-1})=\mathcal N\bigl(\sqrt{\alpha_t}\mathbf{x}_{t-1},\beta_t \mathbf{I}\bigr).
+\begin{aligned}
+- \log p_\theta(\mathbf{x}_0) 
+&\leq -\log p_\theta(\mathbf{x}_0) + \mathrm{KL}\big(q(\mathbf{x}_{1:T}|\mathbf{x}_0)\,\|\,p_\theta(\mathbf{x}_{1:T}|\mathbf{x}_0)\big) \\
+&= -\log p_\theta(\mathbf{x}_0) + \mathbb{E}_{\mathbf{x}_{1:T} \sim q(\mathbf{x}_{1:T}|\mathbf{x}_0)}\left[\log \frac{q(\mathbf{x}_{1:T}|\mathbf{x}_0)}{p_\theta(\mathbf{x}_{1:T}|\mathbf{x}_0)}\right]
+\end{aligned}
+$$
+注意到
+$$
+p_\theta(\mathbf{x}_{1:T}|\mathbf{x}_0) = \frac{p_\theta(\mathbf{x}_{0:T})}{p_\theta(\mathbf{x}_0)}
+$$
+因此
+
+$$
+\begin{aligned}
+&- \log p_\theta(\mathbf{x}_0) + \mathbb{E}_{\mathbf{x}_{1:T} \sim q(\mathbf{x}_{1:T}|\mathbf{x}_0)}\left[\log \frac{q(\mathbf{x}_{1:T}|\mathbf{x}_0)}{p_\theta(\mathbf{x}_{0:T})/p_\theta(\mathbf{x}_0)}\right] \\
+&= - \log p_\theta(\mathbf{x}_0) + \mathbb{E}_{\mathbf{x}_{1:T} \sim q(\mathbf{x}_{1:T}|\mathbf{x}_0)}\left[\log \frac{q(\mathbf{x}_{1:T}|\mathbf{x}_0)\,p_\theta(\mathbf{x}_0)}{p_\theta(\mathbf{x}_{0:T})}\right] \\
+&= - \log p_\theta(\mathbf{x}_0) + \mathbb{E}_{\mathbf{x}_{1:T} \sim q(\mathbf{x}_{1:T}|\mathbf{x}_0)}\left[\log \frac{q(\mathbf{x}_{1:T}|\mathbf{x}_0)}{p_\theta(\mathbf{x}_{0:T})}\right] + \log p_\theta(\mathbf{x}_0) \\
+&= \mathbb{E}_{\mathbf{x}_{1:T} \sim q(\mathbf{x}_{1:T}|\mathbf{x}_0)}\left[\log \frac{q(\mathbf{x}_{1:T}|\mathbf{x}_0)}{p_\theta(\mathbf{x}_{0:T})}\right]
+\end{aligned}
 $$
 
-对 $\log q(\mathbf{x}_0)$ 写出下界：
+对不等式两边对 $q(\mathbf{x}_0)$ 求期望，有
 $$
-\log q(\mathbf{x}_0)=\log \int q(\mathbf{x}_{1:T}\mid \mathbf{x}_0)\frac{p_\theta(\mathbf{x}_{0:T})}{p_\theta(\mathbf{x}_{0:T})} d\mathbf{x}_{1:T}
-\ge \mathbb E_{q(\mathbf{x}_{1:T}\mid \mathbf{x}_0)}\bigl[\log p_\theta(\mathbf{x}_{0:T}) - \log q(\mathbf{x}_{1:T}\mid \mathbf{x}_0)\bigr]
-= -\mathcal L_{\text{ELBO}}.
+\begin{aligned}
+    -\mathbb{E}_{q(\mathbf{x}_0)}[\log p_\theta(\mathbf{x}_0)] 
+    &\leq \mathbb{E}_{\mathbf{x}_0 \sim q(\mathbf{x}_0)}\left[
+        \mathbb{E}_{\mathbf{x}_{1:T} \sim q(\mathbf{x}_{1:T}|\mathbf{x}_0)}
+        \left[
+            \log \frac{q(\mathbf{x}_{1:T}|\mathbf{x}_0)}{p_\theta(\mathbf{x}_{0:T})}
+        \right]
+    \right] \\
+    &= \mathbb{E}_{\mathbf{x}_{0:T} \sim q(\mathbf{x}_{0:T})}
+    \left[
+        \log \frac{q(\mathbf{x}_{1:T}|\mathbf{x}_0)}{p_\theta(\mathbf{x}_{0:T})}
+    \right]
+\end{aligned}
 $$
+我们定义
+$$
+\mathcal{L}_{\mathrm{ELBO}} = \mathbb{E}_{\mathbf{x}_{0:T} \sim q(\mathbf{x}_{0:T})}
+\left[
+    \log \frac{q(\mathbf{x}_{1:T}|\mathbf{x}_0)}{p_\theta(\mathbf{x}_{0:T})}
+\right]
+$$
+通过最小化 $\mathcal{L}_{\mathrm{ELBO}}$，即可最大化 $\log p_\theta(\mathbf{x}_0)$。
 
-将 $\mathcal L_{\text{ELBO}}$ 分块（与 Ho et al. / 引用博客一致）：
+进一步推导（详见 [Lilian Weng 博客](https://lilianweng.github.io/posts/2021-07-11-diffusion-models/#reverse-diffusion-process)），我们可以将 $\mathcal{L}_{\mathrm{ELBO}}$ 拆解为如下形式：
+
 $$
-\mathcal L_{\text{ELBO}} = \mathcal L_T + \sum_{t=2}^T \mathcal L_{t-1} + \mathcal L_0,
+\begin{aligned}
+\mathcal{L}_{\mathrm{ELBO}} =\; &\mathbb{E}_{q(\mathbf{x}_{0:T})} \Bigg[
+\mathrm{KL}\big(q(\mathbf{x}_T|\mathbf{x}_0)\;\|\;p(\mathbf{x}_T)\big)
++ \sum_{t=2}^T \mathrm{KL}\big(q(\mathbf{x}_{t-1}|\mathbf{x}_t, \mathbf{x}_0)\;\|\;p_\theta(\mathbf{x}_{t-1}|\mathbf{x}_t)\big) - \log p_\theta(\mathbf{x}_0|\mathbf{x}_1) \Bigg]
+\end{aligned}
+$$
+其中第一项是常数。
+
+根据前述推导，反向真实后验分布 $q(\mathbf{x}_{t-1}|\mathbf{x}_t, \mathbf{x}_0)$ 具有如下高斯形式（与前文符号保持一致）：
+$$
+q(\mathbf{x}_{t-1}|\mathbf{x}_t, \mathbf{x}_0) = \mathcal{N}\left(\mathbf{x}_{t-1};\, \tilde{\boldsymbol{\mu}}_t(\mathbf{x}_t, \mathbf{x}_0),\, \tilde{\beta}_t \mathbf{I}\right)
 $$
 其中
 $$
-\mathcal L_T = \mathrm{KL}\bigl(q(\mathbf{x}_T\mid \mathbf{x}_0)\,\|\,p(\mathbf{x}_T)\bigr),
+\begin{aligned}
+\tilde{\boldsymbol{\mu}}_t(\mathbf{x}_t, \mathbf{x}_0) &= \frac{1}{\sqrt{\alpha_t}}\left(\mathbf{x}_t - \frac{\beta_t}{\sqrt{1-\bar{\alpha}_t}}\boldsymbol{\epsilon}\right) \\
+\tilde{\beta}_t &= \frac{1-\bar{\alpha}_{t-1}}{1-\bar{\alpha}_t}\beta_t
+\end{aligned}
 $$
+$\boldsymbol{\epsilon}$ 为前向过程中的噪声，$\alpha_t = 1-\beta_t$，$\bar{\alpha}_t = \prod_{s=1}^t \alpha_s$。
+
+在训练时，$\mathbf{x}_t$ 和 $\mathbf{x}_0$ 已知，$\boldsymbol{\epsilon}$ 也可由重参数化得到。
+
+我们希望模型 $p_\theta(\mathbf{x}_{t-1}|\mathbf{x}_t)$ 能尽可能拟合上述真实后验，因此构造：
 $$
-\mathcal L_{t-1} = \mathbb E_{q(\mathbf{x}_0,\mathbf{x}_t)}\Bigl[\mathrm{KL}\bigl(q(\mathbf{x}_{t-1}\mid \mathbf{x}_t,\mathbf{x}_0)\,\|\,p_\theta(\mathbf{x}_{t-1}\mid \mathbf{x}_t)\bigr)\Bigr],\quad 2\le t\le T,
+p_\theta(\mathbf{x}_{t-1}|\mathbf{x}_t) = \mathcal{N}\left(\mathbf{x}_{t-1};\, \boldsymbol{\mu}_\theta(\mathbf{x}_t, t),\, \Sigma_\theta(\mathbf{x}_t, t)\right)
 $$
+其中，$\boldsymbol{\mu}_\theta$ 采用噪声预测参数化（noise prediction parameterization）：
 $$
-\mathcal L_0 = -\log p_\theta(\mathbf{x}_0\mid \mathbf{x}_1).
+\boldsymbol{\mu}_\theta(\mathbf{x}_t, t) = \frac{1}{\sqrt{\alpha_t}}\left(\mathbf{x}_t - \frac{\beta_t}{\sqrt{1-\bar{\alpha}_t}}\hat{\boldsymbol{\epsilon}}_\theta(\mathbf{x}_t, t)\right)
+$$
+$\hat{\boldsymbol{\epsilon}}_\theta(\mathbf{x}_t, t)$ 为模型预测的噪声。
+
+因此，模型的反向分布为
+$$
+p_\theta(\mathbf{x}_{t-1}|\mathbf{x}_t) = \mathcal{N}\left(\mathbf{x}_{t-1};\, \frac{1}{\sqrt{\alpha_t}}\left(\mathbf{x}_t - \frac{\beta_t}{\sqrt{1-\bar{\alpha}_t}}\hat{\boldsymbol{\epsilon}}_\theta(\mathbf{x}_t, t)\right),\, \Sigma_\theta(\mathbf{x}_t, t)\right)
 $$
 
-其中：
-$$
-q(\mathbf{x}_{t-1}\mid \mathbf{x}_t,\mathbf{x}_0)=\mathcal N\bigl(\tilde{\boldsymbol{\mu}}_t(\mathbf{x}_t,\mathbf{x}_0),\tilde{\beta}_t\mathbf{I}\bigr),
-\quad
-\tilde{\boldsymbol{\mu}}_t=\frac{1}{\sqrt{\alpha_t}}\Bigl(\mathbf{x}_t - \frac{\beta_t}{\sqrt{1-\bar\alpha_t}}\boldsymbol{\epsilon}\Bigr),
-\quad
-\tilde{\beta}_t = \frac{1-\bar\alpha_{t-1}}{1-\bar\alpha_t}\beta_t.
-$$
+带入上述推导，$L_{\mathrm{VLB}}$ 的损失函数可写为：
 
-设生成后验近似：
 $$
-p_\theta(\mathbf{x}_{t-1}\mid \mathbf{x}_t)=\mathcal N\bigl(\boldsymbol{\mu}_\theta(\mathbf{x}_t,t),\sigma_t^2 \mathbf{I}\bigr).
+\begin{aligned}
+L_t &= \mathbb{E}_{\mathbf{x}_0,\, \boldsymbol{\epsilon}} \left[ 
+    \frac{1}{2 \|\Sigma_\theta(\mathbf{x}_t, t)\|_2^2} 
+    \left\| \tilde{\boldsymbol{\mu}}_t(\mathbf{x}_t, \mathbf{x}_0) - \boldsymbol{\mu}_\theta(\mathbf{x}_t, t) \right\|^2 
+\right] \\
+&= \mathbb{E}_{\mathbf{x}_0,\, \boldsymbol{\epsilon}} \left[
+    \frac{(1-\alpha_t)^2}{2\alpha_t(1-\bar{\alpha}_t)\|\Sigma_\theta(\mathbf{x}_t, t)\|_2^2}
+    \left\| \boldsymbol{\epsilon} - \hat{\boldsymbol{\epsilon}}_\theta\left(\sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1-\bar{\alpha}_t}\boldsymbol{\epsilon},\, t\right) \right\|^2
+\right]
+\end{aligned}
 $$
-常见策略：
-1) 固定 $\sigma_t^2 = \tilde{\beta}_t$；
-2) 固定为 $\beta_t$；
-3) 或学习插值（此处取 $\sigma_t^2=\tilde{\beta}_t$）。
-
-在固定协方差时：
-$$
-\mathcal L_{t-1} = \mathbb E_{q(\mathbf{x}_0,\mathbf{x}_t)}
-\left[\frac{1}{2\sigma_t^2}\|\tilde{\boldsymbol{\mu}}_t(\mathbf{x}_t,\mathbf{x}_0)-\boldsymbol{\mu}_\theta(\mathbf{x}_t,t)\|^2\right] + C_t.
-$$
-
-采用噪声预测参数化：
-$$
-\boldsymbol{\mu}_\theta(\mathbf{x}_t,t)=\frac{1}{\sqrt{\alpha_t}}\Bigl(\mathbf{x}_t - \frac{\beta_t}{\sqrt{1-\bar\alpha_t}}\hat{\boldsymbol{\epsilon}}_\theta(\mathbf{x}_t,t)\Bigr).
-$$
-
-则
-$$
-\tilde{\boldsymbol{\mu}}_t - \boldsymbol{\mu}_\theta
-= \frac{\beta_t}{\sqrt{\alpha_t}\sqrt{1-\bar\alpha_t}}\bigl(\hat{\boldsymbol{\epsilon}}_\theta(\mathbf{x}_t,t)-\boldsymbol{\epsilon}\bigr),
-$$
-所以
-$$
-\mathcal L_{t-1}
-= \mathbb E_{q(\mathbf{x}_0,\mathbf{x}_t)}\left[
-   \frac{1}{2\sigma_t^2}
-   \frac{\beta_t^2}{\alpha_t(1-\bar\alpha_t)}
-   \|\hat{\boldsymbol{\epsilon}}_\theta(\mathbf{x}_t,t)-\boldsymbol{\epsilon}\|^2
-\right] + C_t.
-$$
-
-定义
-$$
-w_t := \frac{\beta_t^2}{2\sigma_t^2 \alpha_t(1-\bar\alpha_t)},
-$$
-得
-$$
-\mathcal L_{t-1} = w_t\,\mathbb E\|\hat{\boldsymbol{\epsilon}}_\theta - \boldsymbol{\epsilon}\|^2 + C_t.
-$$
-
-在 $\sigma_t^2=\tilde{\beta}_t$ 时，
-$$
-w_t = \frac{\beta_t^2}{2\tilde{\beta}_t \alpha_t(1-\bar\alpha_t)}.
-$$
-
-“简化损失”（舍弃 $w_t$）：
-$$
-\mathcal L_{\text{simple}} = \mathbb E_{t,\mathbf{x}_0,\boldsymbol{\epsilon}}\|\boldsymbol{\epsilon}-\hat{\boldsymbol{\epsilon}}_\theta(\mathbf{x}_t,t)\|^2,
-\quad \mathbf{x}_t=\sqrt{\bar\alpha_t}\mathbf{x}_0+\sqrt{1-\bar\alpha_t}\boldsymbol{\epsilon}.
-$$
+Ho et al. 2020 针对这个公式提出了简化方案，首先不估计方差，而是用 alpha 相关的表达式代替，其次舍弃了每一项前的权重系数。实验结果证明收敛性能更好了。简化后的 Loss function:
+$L_t^{simple} = E_{t\in [1,T], x0, \epsilon_t} [|| \boldsymbol{\epsilon} - \hat{\boldsymbol{\epsilon}}_\theta\left(\sqrt{\bar{\alpha}_t}\mathbf{x}_0 + \sqrt{1-\bar{\alpha}_t}\boldsymbol{\epsilon},\, t\right) ||^2]$
 
 ## 7. 噪声损失与条件 score 代换（含权重形式）
 
-固定 $t$，加权损失：
+我们将 $\boldsymbol{\epsilon}$ 与条件 score 的关系带入上式，得到：
+
 $$
-\mathcal J_t := w_t\,\mathbb E_{\mathbf{x}_0,\boldsymbol{\epsilon}}\|\boldsymbol{\epsilon}-\hat{\boldsymbol{\epsilon}}_\theta(\mathbf{x}_t,t)\|^2.
-$$
-乘以 $(1-\bar\alpha_t)$：
-$$
-(1-\bar\alpha_t)\mathcal J_t = w_t\,\mathbb E\|\sqrt{1-\bar\alpha_t}\boldsymbol{\epsilon}-\sqrt{1-\bar\alpha_t}\hat{\boldsymbol{\epsilon}}_\theta\|^2.
+\begin{aligned}
+L_t^{\mathrm{simple}} 
+&= \mathbb{E}_{t \sim [1,T],\, \mathbf{x}_0,\, \boldsymbol{\epsilon}} \left[
+    \left\| -\sqrt{1-\bar{\alpha}_t}\, s_{\mathrm{cond}}(\mathbf{x}_t|\mathbf{x}_0) + \sqrt{1-\bar{\alpha}_t}\, s_\theta(\mathbf{x}_t, t) \right\|^2
+\right] \\
+&= (1-\bar{\alpha}_t)\, \mathbb{E}_{t,\, \mathbf{x}_0,\, \boldsymbol{\epsilon}} \left[
+    \left\| s_{\mathrm{cond}}(\mathbf{x}_t|\mathbf{x}_0) - s_\theta(\mathbf{x}_t, t) \right\|^2
+\right]
+\end{aligned}
 $$
 
-用
+因此，有
 $$
-\sqrt{1-\bar\alpha_t}\,\boldsymbol{\epsilon}=-(1-\bar\alpha_t)s_{\text{cond}}(\mathbf{x}_t\mid \mathbf{x}_0),\quad
-\sqrt{1-\bar\alpha_t}\,\hat{\boldsymbol{\epsilon}}_\theta=-(1-\bar\alpha_t)s_\theta(\mathbf{x}_t,t),
-$$
-得
-$$
-(1-\bar\alpha_t)\mathcal J_t = w_t(1-\bar\alpha_t)^2
-\mathbb E\|s_{\text{cond}}(\mathbf{x}_t\mid \mathbf{x}_0)-s_\theta(\mathbf{x}_t,t)\|^2.
+L_t^{\mathrm{simple}} \propto \mathbb{E}_{\mathbf{x}_0,\, \boldsymbol{\epsilon}} \left[
+    \left\| s_{\mathrm{cond}}(\mathbf{x}_t|\mathbf{x}_0) - s_\theta(\mathbf{x}_t, t) \right\|^2
+\right]
 $$
 
-去掉与 $\theta$ 无关的正因子：
+进一步，可以写为
 $$
-\mathcal J_t \propto
-\mathbb E_{\mathbf{x}_t}\mathbb E_{\mathbf{x}_0\mid \mathbf{x}_t}
-\|s_{\text{cond}} - s_\theta\|^2.
-$$
-
-条件方差-偏差分解（固定 $\mathbf{x}_t$）：
-$$
-\mathbb E_{\mathbf{x}_0\mid \mathbf{x}_t}\|s_{\text{cond}} - s_\theta\|^2
-= \mathbb E_{\mathbf{x}_0\mid \mathbf{x}_t}\|s_{\text{cond}} - s_t\|^2
-  + \|s_t(\mathbf{x}_t)-s_\theta(\mathbf{x}_t,t)\|^2,
-$$
-因为
-$$
-\mathbb E_{\mathbf{x}_0\mid \mathbf{x}_t}[s_{\text{cond}}]=s_t.
+\propto \mathbb{E}_{\mathbf{x}_t} \left[
+    \mathbb{E}_{\mathbf{x}_0|\mathbf{x}_t} \left\| s_{\mathrm{cond}}(\mathbf{x}_t|\mathbf{x}_0) - s_\theta(\mathbf{x}_t, t) \right\|^2
+\right]
 $$
 
-故
+利用条件方差-偏差分解，有
 $$
-\mathcal J_t \propto
-\mathbb E_{\mathbf{x}_t}\Bigl[
-  \underbrace{\mathbb E_{\mathbf{x}_0\mid \mathbf{x}_t}\|s_{\text{cond}} - s_t\|^2}_{\text{常数}}
-  + \|s_t - s_\theta\|^2
-\Bigr],
+\mathbb{E}_{\mathbf{x}_0|\mathbf{x}_t} \left\| s_{\mathrm{cond}} - s_\theta \right\|^2
+= \mathbb{E}_{\mathbf{x}_0|\mathbf{x}_t} \left\| s_{\mathrm{cond}} - s_t \right\|^2 + \left\| s_t - s_\theta \right\|^2
 $$
-其与 $\theta$ 相关部分为
-$$
-\mathbb E_{\mathbf{x}_t}\|s_\theta(\mathbf{x}_t,t)-s_t(\mathbf{x}_t)\|^2.
-$$
+其中 $s_t = \mathbb{E}_{\mathbf{x}_0|\mathbf{x}_t} [s_{\mathrm{cond}}]$，第一项与 $\theta$ 无关。
 
-因此无论是否保留原始权重 $w_t$，最小化噪声预测 MSE（或其加权形式）都等价于进行分层的 score matching，进而与最大似然（ELBO）优化一致。
+因此，最终优化目标为
+$$
+L_t^{\mathrm{simple}} \propto \mathbb{E}_{q(\mathbf{x}_t, t)} \left[
+    \left\| s_t - s_\theta(\mathbf{x}_t, t) \right\|^2
+\right]
+$$
+即模型 $s_\theta$ 拟合条件 score 的均值 $s_t$。因此，优化 $\boldsymbol{\epsilon}$ 等价于优化 score function。用公式表达为：
+$$
+\begin{aligned}
+L_t^{\mathrm{simple}} &\propto \mathbb{E}_{q(\mathbf{x}_t, t)} \left[
+    \left\| s_t - s_\theta(\mathbf{x}_t, t) \right\|^2
+\right] \\
+&= \mathbb{E}_{q(\mathbf{x}_t, t)} \left[
+    \left\| \mathbb{E}_{\mathbf{x}_0|\mathbf{x}_t} [s_{\mathrm{cond}}(\mathbf{x}_t|\mathbf{x}_0)] - s_\theta(\mathbf{x}_t, t) \right\|^2
+\right]
+\end{aligned}
+$$
+因此，最小化噪声预测损失 $L_t^{\mathrm{simple}}$，本质上就是让 $s_\theta$ 拟合条件 score 的均值 $s_t$，即优化 $\boldsymbol{\epsilon}$ 等价于优化 score function。
